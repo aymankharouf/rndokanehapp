@@ -10,7 +10,7 @@ export const getMessage = (props, error) => {
     logRef.set({
       userId: firebase.auth().currentUser.uid,
       error: error.code,
-      page: props.route.component.name,
+      screen: props.route.name,
       time: new Date()
     })
   }
