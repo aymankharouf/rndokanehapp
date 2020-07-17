@@ -7,6 +7,7 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons'
 import { Root } from "native-base"
+import Store from './data/store'
 
 
 const App = () => {
@@ -23,11 +24,14 @@ const App = () => {
   }, [])
   if (!isReady) return <AppLoading />
   return (
+    <Store>
       <SafeAreaProvider>
         <Root>
           <Navigator />
         </Root>
       </SafeAreaProvider>
+
+    </Store>
   )
   
 }

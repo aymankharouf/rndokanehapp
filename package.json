@@ -24,7 +24,8 @@
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
     "react-native-unimodules": "~0.10.1",
-    "react-native-web": "~0.13.3"
+    "react-native-web": "~0.13.3",
+    "firebase": "7.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
