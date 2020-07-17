@@ -1,4 +1,6 @@
-const Reducer = (state, action) => {
+import { iState, iAction } from './interfaces'
+
+const Reducer = (state: iState, action: iAction) => {
   switch (action.type){
     case 'SET_CATEGORIES':
       return {
