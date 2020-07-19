@@ -1,10 +1,9 @@
 import React from 'react'
-import { Button, Text } from 'native-base'
+import { Button, Text, Spinner } from 'native-base'
 import { StoreContext } from '../data/store'
 import { randomColors } from '../data/config'
 import labels from '../data/labels'
 import { FlatList, StyleSheet } from 'react-native'
-import { AppLoading } from 'expo';
 import { iCategory } from '../data/interfaces'
 
 const MainCategories = () => {
@@ -24,7 +23,7 @@ const MainCategories = () => {
     )
   }
   let i = 0
-  if (state.categories.length === 0) return <AppLoading />
+  if (state.categories.length === 0) return <Spinner />
   return (
     <React.Fragment>
       {categories.length === 0 ?

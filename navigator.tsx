@@ -1,6 +1,6 @@
 import React from 'react'
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Image } from 'react-native'
 import { Icon } from 'native-base'
@@ -14,7 +14,7 @@ import PasswordRequest from './screens/password-request'
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
-const LogoTitle = () => {
+const LogoTitle = (props: any) => {
   return (
     <Image
       style={{ width: 130 }}
@@ -22,12 +22,10 @@ const LogoTitle = () => {
     />
   )
 }
-
 const stack1 = () => {
   const navigation = useNavigation()
   return (
     <Stack.Navigator 
-      screenOptions={{...TransitionPresets.SlideFromRightIOS}}
     >
       <Stack.Screen 
         name="Home"
@@ -35,7 +33,7 @@ const stack1 = () => {
         options={{ 
           headerTitle: props => <LogoTitle {...props} />,
           headerTitleAlign: "center",
-          headerLeft: () => <Icon name='ios-menu' style={{ padding: 20 }} onPress={() => navigation.openDrawer()}/>,
+          headerLeft: () => <Icon name='ios-menu' style={{padding: 20}} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}/>,
         }}
       />
       <Stack.Screen name='About' component={About} />
@@ -48,13 +46,12 @@ const stack2 = () => {
   const navigation = useNavigation()
   return (
     <Stack.Navigator
-      screenOptions={{...TransitionPresets.SlideFromRightIOS}}
     >
       <Stack.Screen 
         name="Login" 
         component={Login} 
         options={{ 
-          headerLeft: () => <Icon name='md-arrow-back' onPress={() => navigation.navigate('Home')}/>,
+          headerLeft: () => <Icon name='md-arrow-forward' style={{padding: 20}} onPress={() => navigation.navigate('Home')}/>,
         }}
       />
       <Stack.Screen name='Register' component={Register} />
