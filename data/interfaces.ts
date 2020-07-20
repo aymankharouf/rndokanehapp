@@ -161,12 +161,18 @@ export interface iDiscount {
   value: number,
   type: string
 }
+export interface iMessage {
+  type: string,
+  text: string
+}
+
 export interface iState {
   user?: firebase.User,
   userInfo?: iUserInfo,
   customerInfo?: iCustomerInfo,
   categories: iCategory[],
   locations: iLocation[],
+  message?: iMessage
 }
 
 export interface iAction {

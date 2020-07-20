@@ -1,15 +1,17 @@
 import React from 'react'
-import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Image } from 'react-native'
-import { Icon } from 'native-base'
 import Home from './screens/home'
 import About from './screens/about'
 import Login from './screens/login'
 import Basket from './screens/basket'
 import Register from './screens/register'
 import PasswordRequest from './screens/password-request'
+import { Button } from 'react-native-ui-lib'
+import Logout from './screens/logout'
+import { Ionicons } from '@expo/vector-icons'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -22,7 +24,30 @@ const LogoTitle = (props: any) => {
     />
   )
 }
-const stack1 = () => {
+const BackButton = (props: any) => {
+  return (
+    <Button
+      style={{margin: 10}}
+      link
+      onPress={() => props.navigation.navigate('Home')}
+    >
+      <Ionicons name='md-arrow-forward' style={{fontSize: 24}} />
+    </Button>
+  )
+}
+const MenuButton = (props: any) => {
+  return (
+    <Button
+      style={{margin: 10}}
+      link
+      onPress={() => props.navigation.openDrawer()}
+    >
+      <Ionicons name='md-menu' style={{fontSize: 24}} />
+    </Button>
+  )
+}
+
+const stack1 = (props: any) => {
   const navigation = useNavigation()
   return (
     <Stack.Navigator 
@@ -33,7 +58,7 @@ const stack1 = () => {
         options={{ 
           headerTitle: props => <LogoTitle {...props} />,
           headerTitleAlign: "center",
-          headerLeft: () => <Icon name='ios-menu' style={{padding: 20}} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}/>,
+          headerLeft: () => <MenuButton {...props} />,
         }}
       />
       <Stack.Screen name='About' component={About} />
@@ -42,7 +67,7 @@ const stack1 = () => {
   )
 }
 
-const stack2 = () => {
+const stack2 = (props: any) => {
   const navigation = useNavigation()
   return (
     <Stack.Navigator
@@ -51,7 +76,7 @@ const stack2 = () => {
         name="Login" 
         component={Login} 
         options={{ 
-          headerLeft: () => <Icon name='md-arrow-forward' style={{padding: 20}} onPress={() => navigation.navigate('Home')}/>,
+          headerLeft: () => <BackButton {...props} />,
         }}
       />
       <Stack.Screen name='Register' component={Register} />

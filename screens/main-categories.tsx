@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button, Text, Spinner } from 'native-base'
+import { Button } from 'react-native-ui-lib'
 import { StoreContext } from '../data/store'
 import { randomColors } from '../data/config'
 import labels from '../data/labels'
-import { FlatList, StyleSheet } from 'react-native'
+import { FlatList, Text } from 'react-native'
 import { iCategory } from '../data/interfaces'
 
 const MainCategories = () => {
@@ -17,13 +17,15 @@ const MainCategories = () => {
   }, [state.categories])
   const renderItem = (item: iCategory, index: number) => {
     return (
-      <Button block style={{backgroundColor: randomColors[index], margin: 10}}> 
-        <Text>{item.name}</Text>
-      </Button>
+      <Button
+          fullWidth
+          label={item.name}
+          style={{margin: 5, backgroundColor: randomColors[index]}}
+          key={index}
+        />
     )
   }
   let i = 0
-  if (state.categories.length === 0) return <Spinner />
   return (
     <React.Fragment>
       {categories.length === 0 ?
@@ -40,9 +42,3 @@ const MainCategories = () => {
 }
 export default MainCategories
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'red',
-    margin: 10
-  },
-});

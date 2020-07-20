@@ -1,70 +1,58 @@
-import React from 'react';
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { StoreContext } from '../data/store'
 import { login, getMessage } from '../data/actions'
 import labels from '../data/labels'
-import { StoreContext } from '../data/store'
+import { TouchableWithoutFeedback, Keyboard } from 'react-native'
+import RNToast from './rntoast'
+import { TextField, FloatingButton } from 'react-native-ui-lib'
 
 const Login = (props: any) => {
   const { dispatch } = React.useContext(StoreContext)
   const [password, setPassword] = React.useState('')
   const [mobile, setMobile] = React.useState('')
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('')
-  const [mobileErrorMessage, setMobileErrorMessage] = React.useState('')
+  const [isValid, setIsValid] = React.useState(false)
   React.useEffect(() => {
-    const patterns = {
-      password: /^.{4}$/,
-    }
-    const validatePassword = (value: string) => {
-      if (patterns.password.test(value)){
-        setPasswordErrorMessage('')
-      } else {
-        setPasswordErrorMessage(labels.invalidPassword)
-      }
-    }
-    if (password) validatePassword(password)
-  }, [password])
-  React.useEffect(() => {
-    const patterns = {
-      mobile: /^07[7-9][0-9]{7}$/
-    }
-    const validateMobile = (value: string) => {
-      if (patterns.mobile.test(value)){
-        setMobileErrorMessage('')
-      } else {
-        setMobileErrorMessage(labels.invalidMobile)
-      }
-    }
-    if (mobile) validateMobile(mobile)
-  }, [mobile])
-  const handleLogin = async () => {
+    setIsValid(mobile && password ? true : false)
+  }, [mobile, password])
+  const handleSubmit = async () => {
     try{
       await login(mobile, password)
-      dispatch({type: 'SET_MESSAGE', payload: {type: 'm', text: labels.addSuccess}})
+      dispatch({type: 'SET_MESSAGE', payload: {type: 'm', text: labels.loginSuccess}})
       props.navigation.navigate('Home')
-    } catch (err){
+    } catch(err) {
       dispatch({type: 'SET_MESSAGE', payload: {type: 'e', text: getMessage(props.route.name, err)}})
-    }
+		}
   }
   return (
-    <Container>
-      <Content>
-          <Form>
-            <Item fixedLabel success={!mobileErrorMessage} error={!!mobileErrorMessage}>
-              <Label>mobile</Label>
-              <Input onChangeText={e => setMobile(e)} />
-            </Item>
-            <Item fixedLabel>
-              <Label>Password</Label>
-              <Input onChangeText={e => setPassword(e)} />
-            </Item>
-            <Button transparent block onPress={() => handleLogin()}>
-              <Text>Login</Text>
-            </Button>
-          </Form>
-      </Content>
-    </Container>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={{flex: 1, margin: 10}}>
+        <TextField
+          containerStyle={{marginBottom: 1}}
+          floatingPlaceholder
+          placeholder={labels.mobile}
+          onChangeText={(e: string) => setMobile(e)}
+          floatOnFocus
+        />
+        <TextField
+          containerStyle={{marginBottom: 1}}
+          floatingPlaceholder
+          placeholder={labels.password}
+          onChangeText={(e: string) => setPassword(e)}
+          floatOnFocus
+        />
+        <FloatingButton
+          visible={isValid}
+          button={{
+            label: labels.login, 
+            onPress: () => handleSubmit(), 
+            labelStyle: {fontWeight: '400'}
+          }}
+        />
+        <RNToast />
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
-  
 }
 
 export default Login

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Container, Text } from 'native-base';
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Text } from 'react-native'
 
 const Register = () => {
   return (
-    <Container>
-    <Text>register</Text>
-  </Container>
+    <SafeAreaView style={{flex: 1}}>
+      <Text>Register</Text>
+    </SafeAreaView>
   )
   
 }
