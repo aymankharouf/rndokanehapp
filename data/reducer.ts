@@ -17,6 +17,26 @@ const Reducer = (state: iState, action: iAction) => {
         ...state,
         countries: action.payload
       }
+    case 'SET_MESSAGE':
+      return {
+        ...state,
+        message: action.payload
+      }
+    case 'CLEAR_MESSAGE':
+      return {
+        ...state,
+        message: undefined
+      }
+    case 'LOGIN':
+      return {
+        ...state,
+        user: action.payload
+      }
+    case 'LOGOUT':
+      return {
+        ...state,
+        user: undefined
+      }
     default:
       return state
   }

@@ -100,3 +100,11 @@ export const paymentTypes = [
   {id: 'rl', name: 'خسارة ارجاع'},
   {id: 'rp', name: 'ربح ارجاع'}
 ]
+
+export const sortByList = [
+  {id: 'p', name: 'اﻷقل سعرا'},
+  {id: 's', name: 'اﻷكثر مبيعا'},
+  {id: 'r', name: 'اﻷفضل في التقييم'},
+  {id: 'o', name: 'العروض أولا'},
+  {id: 'v', name: 'اﻷفضل قيمة (السعر/الوزن)'},
+]

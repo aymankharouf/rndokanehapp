@@ -1,6 +1,7 @@
 import { iLabel } from './interfaces'
 
 const labels: iLabel = {
+    home: 'الصفحة الرئيسية',
     offers: 'العروض',
     registerTitle: 'تسجيل جديد',
     name: 'اﻻسم',

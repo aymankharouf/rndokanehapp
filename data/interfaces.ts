@@ -172,6 +172,7 @@ export interface iState {
   customerInfo?: iCustomerInfo,
   categories: iCategory[],
   locations: iLocation[],
+  packs: iPack[],
   message?: iMessage
 }
 

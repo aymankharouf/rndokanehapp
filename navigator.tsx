@@ -1,6 +1,6 @@
 import React from 'react'
-import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Image } from 'react-native'
 import Home from './screens/home'
@@ -12,9 +12,10 @@ import PasswordRequest from './screens/password-request'
 import { Button } from 'react-native-ui-lib'
 import Logout from './screens/logout'
 import { Ionicons } from '@expo/vector-icons'
+import { StoreContext } from './data/store'
+import labels from './data/labels'
+import Categories from './screens/categories'
 
-const Stack = createStackNavigator()
-const Drawer = createDrawerNavigator()
 
 const LogoTitle = (props: any) => {
   return (
@@ -47,12 +48,13 @@ const MenuButton = (props: any) => {
   )
 }
 
-const stack1 = (props: any) => {
-  const navigation = useNavigation()
-  return (
-    <Stack.Navigator 
+const HomeStack = createStackNavigator()
+const HomeStackScreen = (props: any) => {
+    return (
+    <HomeStack.Navigator 
+      screenOptions={{...TransitionPresets.SlideFromRightIOS}}
     >
-      <Stack.Screen 
+      <HomeStack.Screen 
         name="Home"
         component={Home}
         options={{ 
@@ -61,42 +63,62 @@ const stack1 = (props: any) => {
           headerLeft: () => <MenuButton {...props} />,
         }}
       />
-      <Stack.Screen name='About' component={About} />
-      <Stack.Screen name='Basket' component={Basket} />
-    </Stack.Navigator>  
+      <HomeStack.Screen name='Basket' component={Basket} options={{title: labels.basket}} />
+      <HomeStack.Screen name='About' component={About} options={{title: labels.about}} />
+      <HomeStack.Screen name='Categories' component={Categories} options={{title: labels.categories}} />
+    </HomeStack.Navigator>  
   )
 }
 
-const stack2 = (props: any) => {
-  const navigation = useNavigation()
+const LoginStack = createStackNavigator()
+const LoginStackScreen = (props: any) => {
   return (
-    <Stack.Navigator
+    <LoginStack.Navigator
+      screenOptions={{...TransitionPresets.SlideFromRightIOS}}
     >
-      <Stack.Screen 
+      <LoginStack.Screen 
         name="Login" 
         component={Login} 
-        options={{ 
+        options={{
+          title: labels.login,
           headerLeft: () => <BackButton {...props} />,
         }}
       />
-      <Stack.Screen name='Register' component={Register} />
-      <Stack.Screen name='PasswordRequest' component={PasswordRequest} />
-    </Stack.Navigator>  
+      <LoginStack.Screen name='Register' component={Register} />
+      <LoginStack.Screen name='PasswordRequest' component={PasswordRequest} />
+    </LoginStack.Navigator>  
   )
 }
 
+const Drawer = createDrawerNavigator()
 const Navigator = () => {
+  const { state } = React.useContext(StoreContext)
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen 
           name="Home"
-          component={stack1}
+          component={HomeStackScreen}
+          options={{
+            title: labels.home,
+          }}
         />
-        <Drawer.Screen 
-          name="Login"
-          component={stack2}
-        />
+        {state.user ? 
+          <Drawer.Screen 
+            name="Logout"
+            component={Logout}
+            options={{
+              title: labels.logout,
+            }}
+          />
+        : <Drawer.Screen 
+            name="Login"
+            component={LoginStackScreen}
+            options={{
+              title: labels.login,
+            }}
+          />
+        }
       </Drawer.Navigator>
     </NavigationContainer>
 

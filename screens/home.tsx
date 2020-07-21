@@ -5,7 +5,7 @@ import MainCategories from './main-categories'
 const Home = (props: any) => {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <MainCategories />
+      <MainCategories {...props} />
     </SafeAreaView>
   )
 }

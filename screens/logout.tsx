@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { logout } from '../data/actionst'
+import { logout } from '../data/actions'
 
 const Logout = (props: any) => {
   React.useEffect(() => {
