@@ -107,7 +107,9 @@ export interface iBasketPack {
   byWeight: boolean,
   weight?: number,
   purchased?: number,
-  returned?: number
+  returned?: number,
+  productTrademark: string,
+  productCountry: string
 }
 export interface iOrderPack extends iBasketPack {
   gross: number,
@@ -124,7 +126,7 @@ export interface iBigBasketPack extends iBasketPack {
   priceText: string,
   otherProducts: number,
   otherOffers: number,
-  otherPacks: number
+  otherPacks: number,
 }
 export interface iOrder {
   id?: string,
@@ -173,7 +175,11 @@ export interface iState {
   categories: iCategory[],
   locations: iLocation[],
   packs: iPack[],
-  message?: iMessage
+  packPrices: iPackPrice[],
+  passwordRequests: iPasswordRequest[],
+  message?: iMessage,
+  basket: iBasketPack[],
+  orders: iOrder[]
 }
 
 export interface iAction {

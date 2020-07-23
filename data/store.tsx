@@ -1,7 +1,7 @@
 import React from 'react'
 import Reducer from './reducer'
 import firebase from './firebase'
-import { iContext, iState, iCategory, iPack, iPackPrice } from './interfaces'
+import { iContext, iState, iCategory, iPack, iPackPrice, iOrder } from './interfaces'
 
 export const StoreContext = React.createContext({} as iContext)
 
@@ -9,7 +9,11 @@ const Store = (props: any) => {
   const initState: iState = {
     categories: [], 
     locations: [], 
-    packs: []
+    packs: [],
+    packPrices: [],
+    passwordRequests: [],
+    orders: [],
+    basket: []
   }
   const [state, dispatch] = React.useReducer(Reducer, initState)
   React.useEffect(() => {
@@ -72,6 +76,27 @@ const Store = (props: any) => {
         }, err => {
           unsubscribeLocations()
         })  
+        const unsubscribeOrders = firebase.firestore().collection('orders').where('userId', '==', user.uid).onSnapshot(docs => {
+          let orders: iOrder[] = []
+          docs.forEach(doc => {
+            orders.push({
+              id: doc.id,
+              basket: doc.data().basket,
+              status: doc.data().status,
+              total: doc.data().total,
+              fixedFees: doc.data().fixedFees,
+              deliveryFees: doc.data().deliveryFees,
+              discount: doc.data().discount,
+              fraction: doc.data().fraction,
+              requestType: doc.data().requestType,
+              time: doc.data().time
+            })
+          })
+          dispatch({type: 'SET_ORDERS', payload: orders})
+        }, err => {
+          unsubscribeOrders()
+        }) 
+
       } else {
         dispatch({type: 'LOGOUT'})
       }

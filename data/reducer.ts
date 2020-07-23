@@ -17,6 +17,16 @@ const Reducer = (state: iState, action: iAction) => {
         ...state,
         countries: action.payload
       }
+    case 'SET_PACKS':
+      return {
+        ...state,
+        packs: action.payload
+      }
+    case 'SET_PACK_PRICES':
+      return {
+        ...state,
+        packPrices: action.payload
+      }
     case 'SET_MESSAGE':
       return {
         ...state,

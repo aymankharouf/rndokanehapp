@@ -4,7 +4,6 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Image } from 'react-native'
 import Home from './screens/home'
-import About from './screens/about'
 import Login from './screens/login'
 import Basket from './screens/basket'
 import Register from './screens/register'
@@ -64,7 +63,6 @@ const HomeStackScreen = (props: any) => {
         }}
       />
       <HomeStack.Screen name='Basket' component={Basket} options={{title: labels.basket}} />
-      <HomeStack.Screen name='About' component={About} options={{title: labels.about}} />
       <HomeStack.Screen name='Categories' component={Categories} options={{title: labels.categories}} />
     </HomeStack.Navigator>  
   )

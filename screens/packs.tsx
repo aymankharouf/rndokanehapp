@@ -4,17 +4,17 @@ import labels from '../data/labels'
 import { sortByList, randomColors } from '../data/config'
 import { getChildren, productOfText } from '../data/actions'
 import { iPack } from '../data/interfaces'
-import { TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { TouchableWithoutFeedback, Keyboard, FlatList, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FlatList } from 'react-native'
-import { Button } from 'react-native-ui-lib'
+import { ActionSheet, AnimatableManager, ListItem, Text, ThemeManager, Colors, BorderRadiuses } from 'react-native-ui-lib'
+import * as Animatable from 'react-native-animatable';
 
 const Packs = (props: any) => {
   const { state } = React.useContext(StoreContext)
   const [packs, setPacks] = React.useState<iPack[]>([])
   const [category] = React.useState(() => state.categories.find(category => category.id === props.id))
   const [sortBy, setSortBy] = React.useState('v')
-  const sortList = React.useRef<Actions>(null)
+  const sortList = React.useRef<ActionSheet>(null)
   React.useEffect(() => {
     setPacks(() => {
       const children = props.type === 'a' ? getChildren(props.id, state.categories) : [props.id]
@@ -43,15 +43,23 @@ const Packs = (props: any) => {
       default:
     }
   }
-  const renderItem = (item: iPack, index: number) => {
+  const renderItem = (item: iPack) => {
     return (
-      <Button
-        fullWidth
-        label={item.name}
-        style={{margin: 5, backgroundColor: randomColors[index]}}
-        key={index}
-        onPress={() => props.navigation.navigate('Categories', {id: item.id})}
-      />
+      <Animatable.View key={item.id} {...AnimatableManager.presets.fadeIn}>
+        <ListItem
+          height={80}
+          containerStyle={styles.border}
+          onPress={() => props.navigation.navigate('ProductPacks', {id: item.id})}
+        >
+          <ListItem.Part>
+          </ListItem.Part>
+          <ListItem.Part containerStyle={{flexDirection: 'column'}}>
+            <Text style={{fontSize: 14}}>{item.name}</Text>
+            {item.productAlias ? <Text style={{fontSize: 12, color: 'red'}}>{item.productAlias}</Text> : null}
+            <Text style={{fontSize: 12, color: 'green'}}>{productOfText(item.trademark, item.country)}</Text>
+          </ListItem.Part>
+        </ListItem>
+      </Animatable.View>
     )
   }
   return(
@@ -59,7 +67,7 @@ const Packs = (props: any) => {
       <SafeAreaView style={{flex: 1, margin: 10}}>
         <FlatList 
           data={packs} 
-          renderItem={({ item, index }) => renderItem(item, index)} 
+          renderItem={({ item }) => renderItem(item)} 
           keyExtractor={item => item.id}
         />
       </SafeAreaView>
@@ -67,4 +75,16 @@ const Packs = (props: any) => {
   )
 }
 
+const styles = StyleSheet.create({
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: BorderRadiuses.br20,
+    marginHorizontal: 14,
+  },
+  border: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: ThemeManager.dividerColor,
+  },
+})
 export default Packs
