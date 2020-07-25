@@ -23,7 +23,7 @@ const Categories = (props: any) => {
         label={item.name}
         style={{margin: 5, backgroundColor: randomColors[index]}}
         key={index}
-        onPress={() => props.navigation.navigate('Categories', {id: item.id})}
+        onPress={() => item.isLeaf ? props.navigation.navigate('Packs', {id: item.id, type: 'n'}) : props.navigation.navigate('Categories', {id: item.id})}
       />
     )
   }

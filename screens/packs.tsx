@@ -51,7 +51,11 @@ const Packs = (props: any) => {
           containerStyle={styles.border}
           onPress={() => props.navigation.navigate('ProductPacks', {id: item.id})}
         >
-          <ListItem.Part>
+          <ListItem.Part left>
+            <Animatable.Image
+              source={{uri: item.imageUrl}}
+              style={styles.image}
+            />
           </ListItem.Part>
           <ListItem.Part containerStyle={{flexDirection: 'column'}}>
             <Text style={{fontSize: 14}}>{item.name}</Text>

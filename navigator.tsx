@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { StoreContext } from './data/store'
 import labels from './data/labels'
 import Categories from './screens/categories'
+import Packs from './screens/packs'
 
 
 const LogoTitle = (props: any) => {
@@ -64,6 +65,7 @@ const HomeStackScreen = (props: any) => {
       />
       <HomeStack.Screen name='Basket' component={Basket} options={{title: labels.basket}} />
       <HomeStack.Screen name='Categories' component={Categories} options={{title: labels.categories}} />
+      <HomeStack.Screen name='Packs' component={Packs} options={{title: labels.packs}} />
     </HomeStack.Navigator>  
   )
 }
